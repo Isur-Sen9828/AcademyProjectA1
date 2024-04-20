@@ -13,8 +13,14 @@ const userShema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-    }
-},{timestamps: true});
+    },
+    avatar: {
+        type: String,
+        default:"https://wallpapers.com/images/hd/cool-minimalist-profile-pictures-oib9ltzxmonk5hxz.jpg"
+    },
+},
+{timestamps: true});
 
 const User = mongoose.model('User',userShema);
+
 export default User;
