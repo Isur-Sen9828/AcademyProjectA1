@@ -116,7 +116,7 @@ const handleSignOut = async() => {
     }
     dispatch(signOutUserSuccess(data));
   } catch (error) {
-    dispatch(signOutuserfailure(data.message));
+    dispatch(signOutuserfailure());
   }
 }
   return (
