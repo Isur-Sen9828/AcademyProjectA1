@@ -1,5 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
+import {Link} from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useRef,useEffect } from 'react';
 import {getDownloadURL, getStorage,ref, uploadBytesResumable} from 'firebase/storage';
@@ -170,6 +171,8 @@ const handleSignOut = async() => {
         uppercase hover:opacity-95 disabled:opacity-80'>
         {loading? 'Loading..':'Update'}
         </button>
+
+        <Link className='bg-green-700 text-white p-3 rounded-lg uppercase text-center hover:opacity-95' to={"/create-listing"}> Create Modules</Link>
 
       </form>
       <div className='flex justify-between mt-5'>
