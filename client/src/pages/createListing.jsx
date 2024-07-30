@@ -88,20 +88,24 @@ export default function CreateListing() {
     }
   };
 
-  const handleSubmit = async(e) => {
-    e.preventDeafault();
+  const handleSubmit = async (e) => {
+
+    e.preventDefault();
+   
+
+    // e.preventDeafault();
     try {
       setLoading(true);
       setError(false);
       const res = await fetch('/api/listing/create', {
         method: 'POST',
         headers: {
-          'Content-type': 'application/json',
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           ...formData, 
-          userRef: currentUser._id
-        })
+          userRef: currentUser._id,
+        }),
       });
       const data = await res.json();
       setLoading(false);
@@ -113,7 +117,7 @@ export default function CreateListing() {
       setError(error.message);
       setLoading(false);
     }
-  }
+  };
 
   return (
     <main className=' p-3 max-w-4xl mx-auto'>
@@ -184,15 +188,14 @@ export default function CreateListing() {
                 </div>
               ))
             }
-            <button 
+            <button type='submit'
             className='p-3 bg-slate-700 rounded-lg uppercase hover:opacity-95 disabled:opacity-80 text-white'>
               {loading? 'Creating..': 'Create Listing'}
               </button>
               {error && <p className='text-red-700 text-sm'>{error}</p>}
             </div>
             
-            
-            
+
         </form>
     </main>
   )
