@@ -30,6 +30,8 @@ export default function CreateListing() {
 
   const handleImageSubmit = (e) => {
     if(files.length > 0 && files.length + formData.imageURLs.length < 7){
+      setUploading(true);
+      setImageUploadError(false);
       const promises = [];
 
       for(let i=0; i<files.length; i++){
@@ -39,11 +41,14 @@ export default function CreateListing() {
         setFormData({...formData, imageURLs: formData.imageURLs.concat(urls),
         });
         setImageUploadError(false);
+        setUploading(false);
       }).catch((err) => {
-        setImageUploadError('Image upload unsuccessfull!')
+        setImageUploadError('Image upload unsuccessfull!');
+        setUploading(false);
       });
     }else{
-      setImageUploadError('You can only upload six images!')
+      setImageUploadError('You can only upload six images!');
+      setUploading(false);
     }
   };
 
@@ -114,6 +119,7 @@ export default function CreateListing() {
       if(data.success === false){
         setError(data.message);
       }
+      navigate(`/lisitng/${data._id}`);
 
     } catch (error) {
       setError(error.message);
@@ -174,9 +180,11 @@ export default function CreateListing() {
                 id='images' 
                 accept='image/*' 
                 multiple />
-                <button type='button' onClick={handleImageSubmit} 
+                <button type='button'
+                disabled={uploading}
+                onClick={handleImageSubmit} 
                 className='p-3 text-green-700 border border-green-700 rounded uppercase hover:shadow-lg disabled:opacity-80'>
-                  Upload</button>
+                  {uploading? 'Uploading': 'Upload'}</button>
               </div>
               <p className='text-red-700'>{imageUploadError && imageUploadError}</p>
             {
