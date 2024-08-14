@@ -41,7 +41,8 @@ export default function Listing() {
       {loading && <p className='text-center font-semibold'>Loading...</p> }
       {error && <p className='text-center font-semibold text-red-700'>Something went wrong...</p> }
       {listing && !loading && !error &&(
-        (
+        <div className="">
+        
           <Swiper navigation>
           {listing.imageURLs.map((url) => (
           
@@ -52,8 +53,18 @@ export default function Listing() {
             </SwiperSlide>
           ))}
           </Swiper>
-          )
+          
+          <div className='flex gap-2 flex-col text-center flex-wrap'>
+            <p className='font-semibold text-slate-600 uppercase center'>{listing.name}  ${listing.price}  ({listing.duration} mo.)</p>
+          <p></p>
+          
+          <span className='font-semibold text-black'>
+          Description -
+          </span>
+          <p className=''> {listing.description}</p>
+          </div>
+          </div>
       )}
       </main>
-  )
+  );
 }
