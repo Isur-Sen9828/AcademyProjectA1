@@ -9,6 +9,10 @@ export default function Search() {
         order: 'desc',
     });
 
+    const[loading, setLoading] = useState(false);
+    const[listings, setListings] = useState([]);
+    console.log(listings);
+
     useEffect (() =>{
         const urlParams = new URLSearchParams(location.search);
         const searchTermFromUrl = urlParams.get('searchTerm');
@@ -25,6 +29,17 @@ export default function Search() {
                 order: orderFromUrl || 'desc',
             });
         }
+
+        const fetchListings = async() => {
+            setLoading(true);
+            const searchQuery = urlParams.toString();
+            const res = await fetch(`/api/listing/get?${searchQuery}`);
+            const data = await res.json();
+            setListings(data);
+            setLoading(true);
+        };
+
+        fetchListings();
         }, [location.search]);
 
 
