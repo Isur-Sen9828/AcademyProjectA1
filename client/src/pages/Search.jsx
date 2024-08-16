@@ -1,16 +1,21 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom";
+import ListingItem from "../components/Listingitem";
+
 
 export default function Search() {
     const navigate = useNavigate();
-    const [sidebarData, setSidebarData] = useState({
-        searchTerm: '',
-        sort: 'created_at',
-        order: 'desc',
-    });
+
+  const [sidebarData, setSidebarData] = useState({
+    searchTerm: '',
+    sort: 'created_at',
+    order: 'desc',
+  });
 
     const[loading, setLoading] = useState(false);
     const[listings, setListings] = useState([]);
+    
+    console.log(sidebarData);
     console.log(listings);
 
     useEffect (() =>{
@@ -36,14 +41,15 @@ export default function Search() {
             const res = await fetch(`/api/listing/get?${searchQuery}`);
             const data = await res.json();
             setListings(data);
-            setLoading(true);
+            setLoading(false);
         };
 
         fetchListings();
-        }, [location.search]);
+        },[location.search]);
 
 
     const handleChange = (e) => {
+
         if (e.target.id === 'searchTerm') {
             setSidebarData({...sidebarData, searchTerm: e.target.value})
         }
@@ -63,8 +69,9 @@ export default function Search() {
         urlParams.set('sort', sidebarData.sort);
         urlParams.set('order', sidebarData.order);
         const searchQuery = urlParams.toString();
-        navigate(`/search?/${searchQuery}`);
+        navigate(`/search?${searchQuery}`);
     };
+
 
 
   return (
@@ -79,9 +86,10 @@ export default function Search() {
                     <input type="text"
                     id="searchTerm"
                     placeholder="Search.."
+                    className="border rounded-lg p-3 w-full"
                     value={sidebarData.searchTerm}
                     onChange={handleChange}
-                    className="border rounded-lg p-3 w-full" />
+                     />
                 </div>
                 
                 <div className="flex items-center gap-2">
@@ -100,7 +108,25 @@ export default function Search() {
                 </form>
         </div>
         <div>
-            <h1 className="font-semibold text-xl border-b p-3 text-slate-700 mt-5 ">Search Results..</h1>
+            <h1 className="font-semibold text-xl border-b p-3 text-slate-700 mt-5 ">
+                Search Results..</h1>
+                <div className="text-xl text-slate-700 flex flex-col">
+                    
+                {!loading && listings.length === 0 && (
+            <p className='text-xl text-slate-700'>No listing found!</p>
+          )}
+          {loading && (
+            <p className='text-xl text-slate-700 text-center w-full'>
+              Loading...
+            </p>
+          )}
+
+          {!loading &&
+            listings &&
+            listings.map((listing) => (
+              <ListingItem key={listing._id} listing={listing} />
+            ))}
+                </div>
         </div>
     </div>
   )
