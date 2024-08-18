@@ -107,10 +107,10 @@ export default function Search() {
                 <button className="bg-slate-700 uppercase text-white p-3 rounded-lg hover:opacity-95"> search</button>
                 </form>
         </div>
-        <div>
+        <div className="flex-1">
             <h1 className="font-semibold text-xl border-b p-3 text-slate-700 mt-5 ">
-                Search Results..</h1>
-                <div className="text-xl text-slate-700 flex flex-col">
+                Search Results:</h1>
+                <div className="text-xl flex flex-wrap gap-4">
                     
                 {!loading && listings.length === 0 && (
             <p className='text-xl text-slate-700'>No listing found!</p>
@@ -126,7 +126,7 @@ export default function Search() {
             listings.map((listing) => (
               <ListingItem key={listing._id} listing={listing} />
             ))}
-                </div>
+              </div>
         </div>
     </div>
   )
